@@ -59,13 +59,21 @@ RUN mkdir build && cd build \
     && make install \
     && cd ../../ && rm -rf build
 
-
+# force invalidate cache for GDC
+ENV BUILD_GDC_DATE 02072015
 # Install build-gdc tool
-ADD build-gdc /usr/bin/build-gdc
-RUN chmod +x /usr/bin/build-gdc
-ADD rebuild-build-gdc.sh /home/build/rebuild-build-gdc.sh
-RUN chmod +x /home/build/rebuild-build-gdc.sh \
-    && chown build:build /home/build/rebuild-build-gdc.sh
+RUN mkdir build && cd build \
+    && echo $BUILD_GDC_DATE \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/x86_64-linux-gnu/native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
+    && wget --no-verbose http://code.dlang.org/files/dub-0.9.22-linux-x86_64.tar.gz \
+    && tar xf dub-0.9.22-linux-x86_64.tar.gz \
+    && tar xf native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
+    && git clone https://github.com/D-Programming-GDC/build-gdc.git \
+    && cd build-gdc \
+    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin ../dub build --compiler=gdc \
+    && cp build-gdc /usr/bin/build-gdc \
+    && cd ../../ && rm -rf build \
+    && rm -rf /root/.dub
 
 
 # Initialize /home/build directory

@@ -59,8 +59,8 @@ RUN mkdir build && cd build \
     && make install \
     && cd ../../ && rm -rf build
 
-# force invalidate cache for GDC
-ENV BUILD_GDC_DATE 02072015
+# force invalidate cache for BUILD_GDC
+ENV BUILD_GDC_DATE 09072015
 # Install build-gdc tool
 RUN mkdir build && cd build \
     && echo $BUILD_GDC_DATE \

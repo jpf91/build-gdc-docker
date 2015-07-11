@@ -73,7 +73,8 @@ RUN mkdir build && cd build \
     && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin ../dub build --compiler=gdc \
     && cp build-gdc /usr/bin/build-gdc \
     && cd ../../ && rm -rf build \
-    && rm -rf /root/.dub
+    && rm -rf /root/.dub \
+    && rm -f /tmp/dub_platform_probe.d /tmp/dub_platform_probe
 
 
 # Initialize /home/build directory

@@ -85,6 +85,7 @@ USER build
 # Exact revision doesn't matter, updated at runtime anyway
 ENV GDC_SRC https://github.com/D-Programming-GDC/GDC.git
 ENV GDC_CFG_SRC https://github.com/D-Programming-GDC/build-gdc-config.git
+ENV GDC_WEB_SRC https://github.com/D-Programming-GDC/gdcproject.git
 
 # force invalidate cache for GDC
 ENV GDC_DATE 06062015
@@ -92,4 +93,5 @@ ENV GDC_DATE 06062015
 RUN echo ${GDC_DATE} \
     && git clone ${GDC_SRC} \
     && git clone ${GDC_CFG_SRC} \
+    && git clone ${GDC_WEB_SRC} \
     && mkdir shared

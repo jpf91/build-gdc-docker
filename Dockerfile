@@ -60,7 +60,7 @@ RUN mkdir build && cd build \
     && cd ../../ && rm -rf build
 
 # force invalidate cache for BUILD_GDC
-ENV BUILD_GDC_DATE 12072015
+ENV BUILD_GDC_DATE 15072015
 # Install build-gdc tool
 RUN mkdir build && cd build \
     && echo $BUILD_GDC_DATE \

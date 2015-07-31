@@ -1,5 +1,7 @@
 FROM buildpack-deps:wheezy
 
+# Set root password to root. Useful when debugging this container to install new packages
+RUN echo "root:root" | chpasswd
 
 # Install crosstool/gcc build requirements
 # Note: We don't use multiarch support. On wheezy it's broken as it's not possible
@@ -29,6 +31,7 @@ RUN apt-get update && apt-get install -y \
 
 # Add build user
 RUN adduser --disabled-password --gecos "" build \
+    && echo "build:build" | chpasswd \
     && chsh -s /bin/bash build \
     && echo "dash dash/sh boolean false" | debconf-set-selections \
     && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash

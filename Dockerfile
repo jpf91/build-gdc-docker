@@ -20,11 +20,32 @@ RUN apt-get update && apt-get install -y \
         libncurses5-dev \
         xz-utils \
         p7zip \
+        p7zip-full \
         bash \
         libstdc++6 \
         libstdc++6-4.7-dev \
         gdb \
         nano \
+        apt-src \
+        scons \
+        gzip \
+        perl \
+        autoconf \
+        m4 \
+        gettext \
+        dejagnu \
+        expect \
+        tcl \
+        autogen \
+        guile-1.6 \
+        flip \
+        tofrodos \
+        libgmp3-dev \
+        libmpfr-dev \
+        debhelper \
+        texlive \
+        texlive-extra-utils \
+        zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

@@ -94,7 +94,7 @@ RUN mkdir build && cd build \
     && tar xf native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
     && git clone https://github.com/D-Programming-GDC/build-gdc.git \
     && cd build-gdc \
-    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin ../dub build --compiler=gdc \
+    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin ../dub build --build-mode=singleFile --compiler=gdc \
     && cp build-gdc /usr/bin/build-gdc \
     && cd ../../ && rm -rf build \
     && rm -rf /root/.dub \

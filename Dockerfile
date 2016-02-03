@@ -46,6 +46,7 @@ RUN apt-get update && apt-get install -y \
         texlive \
         texlive-extra-utils \
         zip \
+        help2man \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -72,7 +73,7 @@ RUN adduser --disabled-password --gecos "" build \
 #    && cd ../../ && rm -rf build
 
 
-ENV CTNG_REV c74673285c9d3dc63877935403c3a3a856813b5b
+ENV CTNG_REV 203be35fa2c068aa53a3d80b503719a555e9d40f
 RUN mkdir build && cd build \
     && git clone https://github.com/jpf91/crosstool-ng.git \
     && cd crosstool-ng \

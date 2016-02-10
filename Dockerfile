@@ -73,7 +73,7 @@ RUN adduser --disabled-password --gecos "" build \
 #    && cd ../../ && rm -rf build
 
 
-ENV CTNG_REV 203be35fa2c068aa53a3d80b503719a555e9d40f
+ENV CTNG_REV 3fa503b0761c690a240ed3980a59ba18cd615c5e
 RUN mkdir build && cd build \
     && git clone https://github.com/jpf91/crosstool-ng.git \
     && cd crosstool-ng \

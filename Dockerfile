@@ -84,18 +84,23 @@ RUN mkdir build && cd build \
     && make install \
     && cd ../../ && rm -rf build
 
+# install dub
+RUN mkdir build && cd build \
+    && wget --no-verbose http://code.dlang.org/files/dub-0.9.22-linux-x86_64.tar.gz \
+    && tar xf dub-0.9.22-linux-x86_64.tar.gz \
+    && cp dub /usr/bin/ \
+    && cd ../../ && rm -rf build
+
 # force invalidate cache for BUILD_GDC
 ENV BUILD_GDC_DATE 09112015
 # Install build-gdc tool
 RUN mkdir build && cd build \
     && echo $BUILD_GDC_DATE \
     && wget --no-verbose http://gdcproject.org/downloads/binaries/x86_64-linux-gnu/native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
-    && wget --no-verbose http://code.dlang.org/files/dub-0.9.22-linux-x86_64.tar.gz \
-    && tar xf dub-0.9.22-linux-x86_64.tar.gz \
     && tar xf native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
     && git clone https://github.com/D-Programming-GDC/build-gdc.git \
     && cd build-gdc \
-    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin ../dub build --build-mode=singleFile --compiler=gdc \
+    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin dub build --build-mode=singleFile --compiler=gdc \
     && cp build-gdc /usr/bin/build-gdc \
     && cd ../../ && rm -rf build \
     && rm -rf /root/.dub \
@@ -109,6 +114,7 @@ USER build
 
 # Exact revision doesn't matter, updated at runtime anyway
 ENV GDC_SRC https://github.com/D-Programming-GDC/GDC.git
+ENV GDMD_SRC https://github.com/D-Programming-GDC/GDMD.git
 ENV GDC_CFG_SRC https://github.com/D-Programming-GDC/build-gdc-config.git
 ENV GDC_WEB_SRC https://github.com/D-Programming-GDC/gdcproject.git
 
@@ -119,4 +125,25 @@ RUN echo ${GDC_DATE} \
     && git clone ${GDC_SRC} \
     && git clone ${GDC_CFG_SRC} \
     && git clone ${GDC_WEB_SRC} \
+    && git clone ${GDMD_SRC} \
     && mkdir shared
+
+# install host compilers
+RUN mkdir "host-gdc" \
+    && cd "host-gdc" \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/5.2.0/x86_64-linux-gnu/gdc-5.2.0-arm-linux-gnueabi+2.066.1.tar.xz \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/5.2.0/x86_64-linux-gnu/gdc-5.2.0-arm-linux-gnueabihf+2.066.1.tar.xz \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/5.2.0/x86_64-linux-gnu/gdc-5.2.0-i686-linux-gnu+2.066.1.tar.xz \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/5.2.0/x86_64-linux-gnu/gdc-5.2.0+2.066.1.tar.xz
+
+RUN cd host-gdc && tar xf gdc-5.2.0-arm-linux-gnueabi+2.066.1.tar.xz \
+    && tar xf gdc-5.2.0-arm-linux-gnueabihf+2.066.1.tar.xz \
+    && tar xf gdc-5.2.0-i686-linux-gnu+2.066.1.tar.xz \
+    && tar xf gdc-5.2.0+2.066.1.tar.xz \
+    && rm *.xz \
+    && mv arm-unknown-linux-gnueabi arm-linux-gnueabi \
+    && mv arm-unknown-linux-gnueabihf arm-linux-gnueabihf \
+    && mv i686-pc-linux-gnu i686-linux-gnu \
+    && mv x86_64-pc-linux-gnu x86_64-linux-gnu
+
+COPY build-gdc-dev.sh /home/build/build-gdc-dev.sh

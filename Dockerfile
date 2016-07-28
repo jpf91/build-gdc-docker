@@ -92,15 +92,15 @@ RUN mkdir build && cd build \
     && cd ../../ && rm -rf build
 
 # force invalidate cache for BUILD_GDC
-ENV BUILD_GDC_DATE 09112015
+ENV BUILD_GDC_REV c91de0975235f66631081c5ed74c1594d5939ed0
 # Install build-gdc tool
 RUN mkdir build && cd build \
-    && echo $BUILD_GDC_DATE \
-    && wget --no-verbose http://gdcproject.org/downloads/binaries/x86_64-linux-gnu/native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
-    && tar xf native_2.065_gcc4.9.0_a8ad6a6678_20140615.tar.xz \
+    && wget --no-verbose http://gdcproject.org/downloads/binaries/5.2.0/x86_64-linux-gnu/gdc-5.2.0+2.066.1.tar.xz \
+    && tar xf gdc-5.2.0+2.066.1.tar.xz \
     && git clone https://github.com/D-Programming-GDC/build-gdc.git \
     && cd build-gdc \
-    && PATH=$PATH:/build/x86_64-gdcproject-linux-gnu/bin dub build --build-mode=singleFile --compiler=gdc \
+    && git checkout $BUILD_GDC_REV \
+    && PATH=$PATH:/build/x86_64-pc-linux-gnu/bin dub build --build-mode=singleFile --compiler=gdc \
     && cp build-gdc /usr/bin/build-gdc \
     && cd ../../ && rm -rf build \
     && rm -rf /root/.dub \
